@@ -3,7 +3,7 @@ version: '3'
 services:
   angular-app:
     build: 
-      context: ../bless-my-soul-website/
+      context: ${LOCALPATH}
       dockerfile: /Dockerfile-development
     depends_on:
       - "spring-app"
@@ -11,9 +11,13 @@ services:
       - "spring-app"
     ports:
       - "4200:4200"
-      - "49153:49153"
     volumes:
-        - ../bless-my-soul-website/:/app
+      - ~/.gitconfig:/etc/gitconfig
+      - ${LOCALPATH}/src:/usr/src/app/src:cached
+      - ${LOCALPATH}/e2e:/usr/src/app/e2e:cached
+      - ${LOCALPATH}/tsconfig.json:/usr/src/app/tsconfig.json
+      - ${LOCALPATH}/tslint.json:/usr/src/app/tslint.json
+      - ${LOCALPATH}/package.json:/usr/src/app/package.json
 
   spring-app:
     build: ../bless-my-soul-backend/
