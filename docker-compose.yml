@@ -3,7 +3,7 @@ version: '3'
 services:
   angular-app:
     build: 
-      context: ${LOCALPATH}
+      context: ${LOCAL_FRONTEND_PATH}
       dockerfile: /Dockerfile-development
     depends_on:
       - "spring-app"
@@ -20,7 +20,7 @@ services:
       - ${LOCALPATH}/package.json:/usr/src/app/package.json
 
   spring-app:
-    build: ../bless-my-soul-backend/
+    build: ${LOCAL_BACKEND_PATH}
     ports:
       - "3000:3000"
     environment:
