@@ -1,2 +1,2 @@
 # bless-my-soul-app
-Repository for BMS Docker Containers
+Repository for a global BMS Docker Compose file.
