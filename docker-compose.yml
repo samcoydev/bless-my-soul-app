@@ -2,13 +2,18 @@ version: '3'
 
 services:
   angular-app:
-    build: ../bless-my-soul-website/
+    build: 
+      context: ../bless-my-soul-website/
+      dockerfile: /Dockerfile-development
     depends_on:
       - "spring-app"
     links:
       - "spring-app"
     ports:
-      - "80:80"
+      - "4200:4200"
+      - "49153:49153"
+    volumes:
+        - ../bless-my-soul-website/:/app
 
   spring-app:
     build: ../bless-my-soul-backend/
