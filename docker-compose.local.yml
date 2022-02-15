@@ -3,24 +3,18 @@ version: '3'
 services:
   angular-app:
     build: 
-      context: ${LOCAL_FRONTEND_PATH}
-      dockerfile: /Dockerfile-development
+      context: ${PROD_FRONTEND_PATH}
+      dockerfile: /Dockerfile
+    restart: unless-stopped
     depends_on:
       - "spring-app"
     links:
       - "spring-app"
     ports:
       - "4200:4200"
-    volumes:
-      - ~/.gitconfig:/etc/gitconfig
-      - ${LOCALPATH}/src:/usr/src/app/src:cached
-      - ${LOCALPATH}/e2e:/usr/src/app/e2e:cached
-      - ${LOCALPATH}/tsconfig.json:/usr/src/app/tsconfig.json
-      - ${LOCALPATH}/tslint.json:/usr/src/app/tslint.json
-      - ${LOCALPATH}/package.json:/usr/src/app/package.json
-
+    
   spring-app:
-    build: ${LOCAL_BACKEND_PATH}
+    build: ${PROD_BACKEND_PATH}
     ports:
       - "3000:3000"
     environment:
@@ -33,10 +27,11 @@ services:
     links:
       - "db"
     restart: unless-stopped
-
+  
   db:
     image: 'postgres:13.1-alpine'
     container_name: db
     environment:
       - POSTGRES_USER=compose-postgres
       - POSTGRES_PASSWORD=compose-postgres
+    restart: unless-stopped
