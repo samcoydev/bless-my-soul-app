@@ -7,6 +7,19 @@ It is still possible to get the project running by cloning the
 backend and frontend projects and configuring them, but using 
 these docker compose files should make the process much simpler.
 
+
+### Setting up the `.env` file.
+
+Before doing anything, you'll need to set up your `.env` file.
+
+The `.env.sample` as of now, is configured for the **Local** 
+and **Development** docker compose files. To use the sample,
+just run the following.
+
+```
+cp .env.sample .env
+```
+
 ### Local Instance
 
 To fire up an instance of BMS on your local, you can use the 
