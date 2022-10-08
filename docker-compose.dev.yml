@@ -3,42 +3,48 @@ version: '3'
 services:
   angular-app:
     build: 
-      context: ${LOCAL_FRONTEND_PATH}
-      dockerfile: /Dockerfile-development
+      context: ${FRONTEND_PATH}
+      dockerfile: ./Dockerfile-development
     restart: unless-stopped
+    volumes:
+      - ~/.gitconfig:/etc/gitconfig
+      - ${FRONTEND_PATH}/src:/usr/src/app/src:cached
+      - ${FRONTEND_PATH}/e2e:/usr/src/app/e2e:cached
+      - ${FRONTEND_PATH}/tsconfig.json:/usr/src/app/tsconfig.json
+      - ${FRONTEND_PATH}/tslint.json:/usr/src/app/tslint.json
+      - ${FRONTEND_PATH}/package.json:/usr/src/app/package.json'
     depends_on:
-      - "spring-app"
-    links:
       - "spring-app"
     ports:
       - "4200:4200"
-    volumes:
-      - ~/.gitconfig:/etc/gitconfig
-      - ${LOCAL_FRONTEND_PATH}/src:/usr/src/app/src:cached
-      - ${LOCAL_FRONTEND_PATH}/e2e:/usr/src/app/e2e:cached
-      - ${LOCAL_FRONTEND_PATH}/tsconfig.json:/usr/src/app/tsconfig.json
-      - ${LOCAL_FRONTEND_PATH}/tslint.json:/usr/src/app/tslint.json
-      - ${LOCAL_FRONTEND_PATH}/package.json:/usr/src/app/package.json
+    networks:
+      - database-network
 
   spring-app:
-    build: ${LOCAL_BACKEND_PATH}
-    ports:
-      - "3000:3000"
+    build: ${BACKEND_PATH}
+    restart: unless-stopped
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
-      - SPRING_DATASOURCE_USERNAME=compose-postgres
-      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/${DB_NAME}
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       - "db"
-    links:
-      - "db"
-    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    networks:
+      - database-network
 
   db:
     image: 'postgres:13.1-alpine'
     container_name: db
     environment:
-      - POSTGRES_USER=compose-postgres
-      - POSTGRES_PASSWORD=compose-postgres
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     restart: unless-stopped
+    networks:
+      - database-network
+
+networks:
+  database-network:
+    driver: bridge

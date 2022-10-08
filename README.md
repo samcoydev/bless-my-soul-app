@@ -23,10 +23,10 @@ cp .env.sample .env
 ### Local Instance
 
 To fire up an instance of BMS on your local, you can use the 
-`docker-compose.local.yml` file.
+`docker-compose.yml` file.
 
 ```
-docker-compose -f docker-compose.local.yml up --build
+docker-compose -f docker-compose.yml up --build
 ```
 
 ### Local Development Environment
@@ -38,8 +38,3 @@ also support Spring hot reloading.
 ```
 docker-compose -f docker-compose.dev.yml up --build
 ```
-
-### Other / Notes
-
-So far the `docker-compose.production.yml` doesn't do anything /
-may not work.
