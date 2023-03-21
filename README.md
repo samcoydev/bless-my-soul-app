@@ -1,7 +1,22 @@
 # Bless My Soul App
 
+### Info About the Apps Purpose
+
+Bless My Soul was created for a family member to use as the 
+website for their local business. Bless My Soul sells various 
+arts & crafts, such as custom watercolor cards, custom print 
+tote bags, custom print shirts, and more! 
+
+This website would be used to browse a catalog of products 
+and add them to your cart, you will also be able to create 
+orders and communicate with the owner to ensure you have the 
+smoothest experience and receive any homemade craft fine tuned 
+to your needs.
+
+### Info About this Repository
+
 This repository is home to a couple of docker compose files you 
-can use to fire up an instance of BMS quickly. 
+can use to fire up an instance of Bless My Soul quickly. 
 
 It is still possible to get the project running by cloning the 
 backend and frontend projects and configuring them, but using 
